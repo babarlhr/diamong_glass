@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="manufacturing_form_extension" model="ir.ui.view">
+            <field name="name">manufacturing_form_extension</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="/form/header/button[@name='action_confirm']" position="after">
+                    <button name="fetch_batch_info"  string="Fetch Batch Info" type="object" class="oe_highlight"/>
+                    <button name="plan_mo"  string="Plan Batch" type="object" class="oe_highlight"/>
+                    <button name="hold_batch"  string="Hold Batch" type="object" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="/form/header/button[@name='action_cancel']" position="replace"/>    
+                <xpath expr="/form/header/button[@name='action_toggle_is_locked']" position="replace"/>    
+                <xpath expr="/form/header/button[@name='button_scrap']" position="replace"/>    
+                <xpath expr="/form/header/button[@name='action_assign']" position="replace"/>    
+
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="batch_no"/>
+                </xpath>
+                <xpath expr="//page[1]" position="before">
+
+                    <page string="Work Centers">
+                        <field name="work_order_times" widget="one2many_list" nolabel="1" class="oe_inline oe_no_button" >
+                             <tree editable="bottom" >    
+                                <field name="name"/>
+                                <field name="time" widget = "float_time"/>
+                                <field name="sequence"/>
+                                <field name="planned_start"/>
+                                <field name="planned_end"/>
+                                <field name="actual_start"/>
+                                <field name="actual_end"/>
+                                <field name="order_id" invisible = "1"/>
+                             </tree>
+                        </field>
+                    </page>
+
+                </xpath>
+            </field>
+        </record>
+
+        <record id="resource_tree_extension_calendar" model="ir.ui.view">
+            <field name="name">resource_tree_extension_calendar</field>
+            <field name="model">resource.calendar.attendance</field>
+            <field name="inherit_id" ref="resource.view_resource_calendar_attendance_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="field[@name='hour_to']" position="after">
+
+                    <field name="break_from" widget = "float_time"/>
+                    <field name="break_to" widget = "float_time"/>
+                    <field name="total_break" widget = "float_time"/>
+                    <field name="total_time" widget = "float_time"/>
+                </xpath>
+
+                <xpath expr="//field[@name='date_from']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_to']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+        <!-- <record id="hr_employee_number_tree" model="ir.ui.view">
+            <field name="name">hr.employee.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="employee_number"/>
+                </xpath>
+             </field>
+        </record>
+        <record id="hr_employee_number_filter" model="ir.ui.view">
+            <field name="name">hr.employee.filter</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="employee_number"/>
+                </xpath>
+             </field>
+        </record> -->
+
+    </data>
+</odoo>

@@ -1,0 +1,104 @@
+@charset "utf-8";
+
+.line_border_solid {
+    border: 1px solid;
+    padding: 3px;
+}
+
+.border_topbottom_solid {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    text-align: left;
+    padding: 3px;
+}
+
+.border_topbottomleft_solid {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-left: 1px solid;
+    text-align: left;
+    padding: 3px;
+}
+
+.line_border_buttom_solid {
+    border-bottom: 1px solid;
+    padding: 3px;
+}
+
+.line_border_buttom_grey {
+    border-bottom: 1px solid #bfbfbf;
+    padding: 3px;
+}
+
+.text_center {
+    text-align: center;
+}
+
+.text_center_lightgreen {
+    text-align: center;
+    background-color: #ccffcc;
+}
+
+.text_right_lightgreen {
+    text-align: right;
+    background-color: #ccffcc;
+}
+
+.text_left_lightblue {
+    text-align: left;
+    background-color: #ccf2ff;
+}
+
+
+.text_center_employeename {
+    text-align: center;
+    background-color: #ccffcc;
+	margin-top : 4px;
+}
+
+.tabel_border_left_grey {
+    border-left: 1px solid #bfbfbf;
+    padding-left : 4px;    
+}
+
+
+.text_right {
+    text-align: right;
+}
+
+.text_left {
+    text-align: left;
+    padding: 3px;
+    
+}
+
+.text_padding10 {
+    padding: 10px 0;
+}
+
+.text_vertical_center {
+    padding: 3px 0;
+    text-align: center;
+}
+
+
+.text_vertical_middle {
+    padding: 5px 0;
+}
+
+.text_8 {
+    font-size: 8px;
+}
+.text_9 {
+    font-size: 9px;
+}
+.text_10 {
+    font-size: 10px;
+}
+.text_11 {
+    font-size: 11px;
+}
+
+.text_12 {
+    font-size: 12px;
+}
