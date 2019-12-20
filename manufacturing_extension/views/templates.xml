@@ -12,7 +12,7 @@
                 <xpath expr="/form/header/button[@name='action_confirm']" position="after">
                     <button name="fetch_batch_info"  string="Fetch Batch Info" type="object" class="oe_highlight"/>
                     <button name="plan_mo"  string="Plan Batch" type="object" class="oe_highlight"/>
-                    <button name="hold_batch"  string="Hold Batch" type="object" class="oe_highlight"/>
+                    <button name="not_planned"  string="Not Planned" type="object" class="oe_highlight"/>
                 </xpath>
                 <xpath expr="/form/header/button[@name='action_cancel']" position="replace"/>    
                 <xpath expr="/form/header/button[@name='action_toggle_is_locked']" position="replace"/>    
@@ -27,6 +27,7 @@
                     <page string="Work Centers">
                         <field name="work_order_times" widget="one2many_list" nolabel="1" class="oe_inline oe_no_button" >
                              <tree editable="bottom" >    
+                                <field name="operation_id"/>
                                 <field name="name"/>
                                 <field name="time" widget = "float_time"/>
                                 <field name="sequence"/>
@@ -51,8 +52,9 @@
 
                 <xpath expr="field[@name='hour_to']" position="after">
 
-                    <field name="break_from" widget = "float_time"/>
-                    <field name="break_to" widget = "float_time"/>
+                    <field name="breaks" widget = "many2many_tags"/>
+                    <field name="break_from" widget = "float_time" invisible = "1"/>
+                    <field name="break_to" widget = "float_time" invisible = "1"/>
                     <field name="total_break" widget = "float_time"/>
                     <field name="total_time" widget = "float_time"/>
                 </xpath>
@@ -66,27 +68,132 @@
             </field>
         </record>
 
-
-        <!-- <record id="hr_employee_number_tree" model="ir.ui.view">
-            <field name="name">hr.employee.tree</field>
-            <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr.view_employee_tree"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='name']" position="after">
-                    <field name="employee_number"/>
-                </xpath>
-             </field>
+        <record id = "break_times" model = "ir.ui.view">
+            <field name = "name">break_times</field>
+            <field name = "model">break.time</field>
+            <field name = "arch" type = "xml">
+                <form>
+                    <sheet>
+                        <group >
+                            <group>
+                                <field name = "break_from" widget = "float_time"/>
+                                <field name = "name" invisible = "1"/>
+                            </group>
+                            <group>
+                                <field name = "break_to" widget = "float_time"/>
+                                <field name = "total_break" widget = "float_time"/>
+                                
+                            </group>
+                        </group>
+                        
+                    </sheet>
+                </form>
+            </field>
         </record>
-        <record id="hr_employee_number_filter" model="ir.ui.view">
-            <field name="name">hr.employee.filter</field>
-            <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr.view_employee_filter"/>
+
+        <record id = "time_slots_workcenters" model = "ir.ui.view">
+            <field name = "name">time_slots_workcenters</field>
+            <field name = "model">time.slots</field>
+            <field name = "arch" type = "xml">
+                <form>
+                    <header>
+                        <button name="RefreshSlotLines"  string="Refresh Time Slots" type="object" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <group >
+                            <group>
+                                <field name = "start_time" />
+                                <field name = "end_time" />
+                                <field name = "total_time" />
+                                <field name = "remaining_time" />
+                            </group>
+                            <group>
+                                <field name = "shift_name" />
+                                <field name = "workcenter" />
+                                
+                            </group>
+                            <field name="workorder_lines" widget="one2many_list" nolabel="1" class="oe_inline oe_no_button" readonly = "1">
+                                 <tree editable="bottom" >    
+                                    <!-- <field name="date_planned_start"/> -->
+                                    <!-- <field name="name"/> -->
+                                    <field name="time_slot_id"/>
+                                 </tree>
+                            </field>
+                            <field name="timeslot_lines" widget="one2many_list" nolabel="1" class="oe_inline oe_no_button" readonly = "0">
+                                 <tree editable="bottom" >    
+                                    <field name="start_time"/>
+                                    <field name="end_time"/>
+                                    <field name="shift_name"/>
+                                    <field name="workcenter"/>
+                                    <field name="remaining_time"/>
+                                    <field name="time_slot_id_lines"/>
+                                 </tree>
+                            </field>
+                        </group>
+
+                        
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id = "time_slots_workcenters_tree" model = "ir.ui.view">
+            <field name = "name">time_slots_workcenters_tree</field>
+            <field name = "model">time.slots</field>
+            <field name = "type">tree</field>
+            <field name = "arch" type = "xml">
+                <tree>
+                    <field name = "start_time"/>
+                    <field name = "end_time"/>
+                    <field name = "shift_name"/>
+                    <field name = "workcenter"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="time_slots_action">
+            <field name="name">Time Slots</field>
+            <field name="res_model">time.slots</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+
+        </record>
+        
+        <menuitem name="Time Slots" id="time_slots_menu" parent="mrp.menu_mrp_bom" action="time_slots_action" sequence="100"/>
+
+        <record model="ir.actions.act_window" id="working_hours_action">
+            <field name="name">Working Hours</field>
+            <field name="res_model">resource.calendar</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+
+        </record>
+
+        <menuitem name="Working Hours" id="working_hours_menu" parent="mrp.menu_mrp_bom" action="working_hours_action" sequence="99"/>
+
+
+        <record id="work_center_form_extension" model="ir.ui.view">
+            <field name="name">work_center_form_extension</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_workcenter_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='name']" position="after">
-                    <field name="employee_number"/>
+
+
+                <xpath expr="/form/*" position="before">
+                    <header>
+                        <button name="GenerateTimeslots"  string="Generate Time Slots" type="object" class="oe_highlight"/>
+                    </header>
                 </xpath>
-             </field>
-        </record> -->
+
+                <xpath expr="//field[@name='resource_calendar_id']" position="after">
+                    <field name="planned_till"/>
+                    <field name="sequence"/>
+                </xpath>
+
+                
+            </field>
+        </record>
+
 
     </data>
 </odoo>
