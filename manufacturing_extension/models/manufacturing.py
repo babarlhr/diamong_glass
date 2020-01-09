@@ -37,15 +37,18 @@ class ManufacturingExtension(models.Model):
 
 
 
-	# def fetch_batch_info(self):
-	#     workcenters = self.env['mrp.workcenter'].search([])
-	#     self.work_order_times.unlink()
-	#     for wk in workcenters:
-	#         self.env['work.center.time'].create({
-	#             'name':wk.id,
-	#             'sequence':wk.sequence,
-	#             'order_id':self.id
-	#             })
+	def fetch_batch_info(self):
+	    # workcenters = self.env['mrp.workcenter'].search([])
+	    # # self.work_order_times.unlink()
+	    # for wk in workcenters:
+	    #     self.env['work.center.time'].create({
+	    #         'name':wk.id,
+	    #         'sequence':wk.sequence,
+	    #         'order_id':self.id
+	    #         })
+
+	    for x in self.work_order_times:
+	    	x.sequence = x.name.sequence
 
 	def plan_mo(self):
 		# self.state = "planned"
